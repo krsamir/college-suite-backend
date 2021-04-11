@@ -50,4 +50,21 @@ const deleteNotice = (req, res) => {
   });
 };
 
-export { createNotice, adminDetails, getNotice, editNotice, deleteNotice };
+const createTeacher = (req, res) => {
+  appModel.createTeacher(req.body, (err, response) => {
+    if (err || req.role !== "admin") {
+      res.status(404).send(err);
+    } else {
+      res.status(200).send(response);
+    }
+  });
+};
+
+export {
+  createNotice,
+  adminDetails,
+  getNotice,
+  editNotice,
+  deleteNotice,
+  createTeacher,
+};

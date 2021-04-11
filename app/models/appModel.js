@@ -56,7 +56,7 @@ Task.editNotice = async (data, result) => {
 
 Task.deleteNotice = async (data, result) => {
   const { id } = data;
-  let query = `DELETE FROM NOTICE WHERE (id = "${id}")`;
+  let query = `UPDATE NOTICE SET status = "${0}", last_updated_at="${now}" WHERE (id="${id}")`;
   SQL.query(query, async (err, res) => {
     if (err) {
       console.log(err);
@@ -67,4 +67,47 @@ Task.deleteNotice = async (data, result) => {
   });
 };
 
+Task.createTeacher = async (data, result) => {
+  // const { id } = data;
+  let query = `INSERT INTO TEACHER_MASTER (employee_id,name,password,contact,position,department,date_of_joining,isHod) VALUES ?`;
+  SQL.query(
+    query,
+    [
+      data.map((value) => [
+        value.employee_id,
+        value.name,
+        value.password,
+        value.contact,
+        value.position,
+        value.department,
+        value.date_of_joining,
+        value.isHod,
+      ]),
+    ],
+    async (err, res) => {
+      if (err) {
+        console.log(err);
+        result(err, null);
+      } else {
+        result(null, res);
+      }
+    }
+  );
+};
+
 export default Task;
+// Task.createDepartment = (data, result) => {
+//   let query = `INSERT INTO SOA_DEPARTMENT (department_name, department_id) VALUES ?`;
+//   sql.query(
+//     query,
+//     [data.map((value) => [value.department_name, value.department_id])],
+//     async (err, response) => {
+//       if (err) {
+//         log(err);
+//         result(err, null);
+//       } else {
+//         result(null, response);
+//       }
+//     }
+//   );
+// };

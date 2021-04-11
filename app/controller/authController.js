@@ -23,4 +23,26 @@ const loginAdmin = (req, res) => {
   });
 };
 
-export { loginOwner, loginAdmin };
+const loginStudent = (req, res) => {
+  if (!req.body) return res.status(400).send("Bad request!");
+  authModel.loginStudent(req.body, (err, response) => {
+    if (err) {
+      res.status(409).send(err);
+    } else {
+      res.status(200).send(response);
+    }
+  });
+};
+
+const loginTeacher = (req, res) => {
+  if (!req.body) return res.status(400).send("Bad request!");
+  authModel.loginTeacher(req.body, (err, response) => {
+    if (err) {
+      res.status(409).send(err);
+    } else {
+      res.status(200).send(response);
+    }
+  });
+};
+
+export { loginOwner, loginAdmin, loginStudent, loginTeacher };

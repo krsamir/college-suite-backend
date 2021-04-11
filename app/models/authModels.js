@@ -60,4 +60,59 @@ Auth.loginAdmin = (data, result) => {
     }
   });
 };
+
+Auth.loginStudent = (data, result) => {
+  const { email, password } = data;
+  let query = `SELECT * FROM admin_master where email="${email}"`;
+  SQL.query(query, async (err, res) => {
+    if (err) {
+      console.log(err);
+      result(err, null);
+    } else {
+      if (res.length === 0) {
+        result(null, "usernotfound");
+      } else {
+        const response = JSON.parse(JSON.stringify(res))[0];
+        // const isMatched = await bcrypt.compare(password, response.password);
+        const isMatched = password === response.password;
+        if (isMatched) {
+          const token = jwt.sign({ id: email, role: "admin" }, JWT_SECRET, {
+            expiresIn: JWT_EXPIRATION_TIME,
+          });
+          return result(null, { token });
+        } else {
+          result(null, "invaliduser");
+        }
+      }
+    }
+  });
+};
+
+Auth.loginTeacher = (data, result) => {
+  const { email, password } = data;
+  let query = `SELECT * FROM admin_master where email="${email}"`;
+  SQL.query(query, async (err, res) => {
+    if (err) {
+      console.log(err);
+      result(err, null);
+    } else {
+      if (res.length === 0) {
+        result(null, "usernotfound");
+      } else {
+        const response = JSON.parse(JSON.stringify(res))[0];
+        // const isMatched = await bcrypt.compare(password, response.password);
+        const isMatched = password === response.password;
+        if (isMatched) {
+          const token = jwt.sign({ id: email, role: "admin" }, JWT_SECRET, {
+            expiresIn: JWT_EXPIRATION_TIME,
+          });
+          return result(null, { token });
+        } else {
+          result(null, "invaliduser");
+        }
+      }
+    }
+  });
+};
 export default Auth;
+
