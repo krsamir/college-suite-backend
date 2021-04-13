@@ -69,11 +69,11 @@ Task.deleteNotice = async (data, result) => {
 
 Task.createTeacher = async (data, result) => {
   // const { id } = data;
-  let query = `INSERT INTO TEACHER_MASTER (employee_id,name,password,contact,position,department,date_of_joining,isHod) VALUES ?`;
+  let query = `INSERT INTO TEACHER_MASTER (employee_id,name,password,contact,position,department,date_of_joining,isHod,created_by,last_updated_at) VALUES ?`;
   SQL.query(
     query,
     [
-      data.map((value) => [
+      data.body.map((value) => [
         value.employee_id,
         value.name,
         value.password,
@@ -82,6 +82,8 @@ Task.createTeacher = async (data, result) => {
         value.department,
         value.date_of_joining,
         value.isHod,
+        data.user,
+        now,
       ]),
     ],
     async (err, res) => {
@@ -95,19 +97,139 @@ Task.createTeacher = async (data, result) => {
   );
 };
 
+Task.createDepartment = async (data, result) => {
+  let query = `INSERT INTO DEPARTMENT (DEPT_ID,DEPT_NAME,CREATED_BY) VALUES ?`;
+  SQL.query(
+    query,
+    [data.body.map((value) => [value.dept_id, value.dept_name, data.user])],
+    async (err, res) => {
+      if (err) {
+        if (err.code === "ER_DUP_ENTRY") {
+          result(null, { status: "duplicate" });
+        } else {
+          console.log(err);
+          result(err, null);
+        }
+      } else {
+        result(null, { status: "created" });
+      }
+    }
+  );
+};
+
+Task.createPosition = async (data, result) => {
+  let query = `INSERT INTO position_table (position_id,position,created_by) VALUES ?`;
+  SQL.query(
+    query,
+    [data.body.map((value) => [value.position_id, value.position, data.user])],
+    async (err, res) => {
+      if (err) {
+        if (err.code === "ER_DUP_ENTRY") {
+          result(null, { status: "duplicate" });
+        } else {
+          console.log(err);
+          result(err, null);
+        }
+      } else {
+        result(null, { status: "created" });
+      }
+    }
+  );
+};
+
+Task.getDepartment = async (data, result) => {
+  let query = `SELECT * FROM department order by dept_id ASC`;
+  SQL.query(query, data, async (err, res) => {
+    if (err) {
+      console.log(err);
+      result(err, null);
+    } else {
+      result(null, res);
+    }
+  });
+};
+
+Task.getPosition = async (data, result) => {
+  let query = `SELECT * FROM position_table ORDER BY POSITION_ID ASC`;
+  SQL.query(query, data, async (err, res) => {
+    if (err) {
+      console.log(err);
+      result(err, null);
+    } else {
+      result(null, res);
+    }
+  });
+};
+
+Task.getTeacher = async (data, result) => {
+  let query = `SELECT * FROM TEACHER_MASTER ORDER BY ID ASC`;
+  SQL.query(query, data, async (err, res) => {
+    if (err) {
+      console.log(err);
+      result(err, null);
+    } else {
+      result(null, res);
+    }
+  });
+};
+
+Task.editPosition = async (data, result) => {
+  const { id, position_id, position, status } = data;
+  let query = `UPDATE position_table SET position_id = "${position_id}", position="${position}", status="${status}" WHERE (id="${id}")`;
+  SQL.query(query, async (err, res) => {
+    if (err) {
+      if (err.code === "ER_DUP_ENTRY") {
+        result(null, { status: "duplicate" });
+      } else {
+        console.log(err);
+        result(err, null);
+      }
+    } else {
+      result(null, { status: "success" });
+    }
+  });
+};
+
+Task.deletePosition = async (data, result) => {
+  const { id } = data;
+  let query = `UPDATE position_table SET status = "${0}" WHERE (id="${id}")`;
+  SQL.query(query, async (err, res) => {
+    if (err) {
+      console.log(err);
+      result(err, null);
+    } else {
+      result(null, "success");
+    }
+  });
+};
+
+Task.editDepartment = async (data, result) => {
+  const { id, dept_id, dept_name, status } = data;
+  let query = `UPDATE department SET dept_id = "${dept_id}", dept_name="${dept_name}", status="${status}" WHERE (id="${id}")`;
+  SQL.query(query, async (err, res) => {
+    if (err) {
+      if (err.code === "ER_DUP_ENTRY") {
+        result(null, { status: "duplicate" });
+      } else {
+        console.log(err);
+        result(err, null);
+      }
+    } else {
+      result(null, { status: "success" });
+    }
+  });
+};
+
+Task.deleteDepartment = async (data, result) => {
+  const { id } = data;
+  let query = `UPDATE department SET status = "${0}" WHERE (id="${id}")`;
+  SQL.query(query, async (err, res) => {
+    if (err) {
+      console.log(err);
+      result(err, null);
+    } else {
+      result(null, "success");
+    }
+  });
+};
 export default Task;
-// Task.createDepartment = (data, result) => {
-//   let query = `INSERT INTO SOA_DEPARTMENT (department_name, department_id) VALUES ?`;
-//   sql.query(
-//     query,
-//     [data.map((value) => [value.department_name, value.department_id])],
-//     async (err, response) => {
-//       if (err) {
-//         log(err);
-//         result(err, null);
-//       } else {
-//         result(null, response);
-//       }
-//     }
-//   );
-// };
