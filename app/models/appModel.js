@@ -30,7 +30,7 @@ Task.createNotice = async (data, result) => {
 };
 
 Task.getNotice = async (data, result) => {
-  let query = `SELECT * FROM NOTICE ORDER BY ID DESC`;
+  let query = `select * from notice order by id desc`;
   SQL.query(query, async (err, res) => {
     if (err) {
       console.log(err);
