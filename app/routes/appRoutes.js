@@ -28,7 +28,6 @@ const appRoutes = (app) => {
   app.route(`/api/getDepartment`).get(auth, getDepartment);
   app.route(`/api/editDepartment`).put(auth, editDepartment);
   app.route(`/api/deleteDepartment`).put(auth, deleteDepartment);
-
   app.route("/api/create_position").post(auth, createPosition);
   app.route(`/api/getPosition`).get(auth, getPosition);
   app.route(`/api/editPosition`).put(auth, editPosition);

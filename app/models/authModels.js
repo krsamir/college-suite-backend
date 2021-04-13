@@ -89,8 +89,8 @@ Auth.loginStudent = (data, result) => {
 };
 
 Auth.loginTeacher = (data, result) => {
-  const { email, password } = data;
-  let query = `SELECT * FROM admin_master where email="${email}"`;
+  const { empId, password } = data;
+  let query = `SELECT * FROM teacher_master where employee_id="${empId}"`;
   SQL.query(query, async (err, res) => {
     if (err) {
       console.log(err);
@@ -103,7 +103,7 @@ Auth.loginTeacher = (data, result) => {
         // const isMatched = await bcrypt.compare(password, response.password);
         const isMatched = password === response.password;
         if (isMatched) {
-          const token = jwt.sign({ id: email, role: "admin" }, JWT_SECRET, {
+          const token = jwt.sign({ id: empId, role: "teacher" }, JWT_SECRET, {
             expiresIn: JWT_EXPIRATION_TIME,
           });
           return result(null, { token });
@@ -115,4 +115,3 @@ Auth.loginTeacher = (data, result) => {
   });
 };
 export default Auth;
-
