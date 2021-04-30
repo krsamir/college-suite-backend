@@ -14,6 +14,10 @@ import {
   deletePosition,
   editDepartment,
   deleteDepartment,
+  getParticularTeacher,
+  createSubject,
+  getSubject,
+  editSubject,
 } from "../controller/appController.js";
 import auth from "../Authentication/Auth.js";
 const appRoutes = (app) => {
@@ -32,6 +36,10 @@ const appRoutes = (app) => {
   app.route(`/api/getPosition`).get(auth, getPosition);
   app.route(`/api/editPosition`).put(auth, editPosition);
   app.route(`/api/deletePosition`).put(auth, deletePosition);
+  app.route(`/api/getParticularTeacher`).get(auth, getParticularTeacher);
+  app.route(`/api/createSubject`).post(auth, createSubject);
+  app.route(`/api/getSubject`).get(auth, getSubject);
+  app.route(`/api/editSubject`).put(auth, editSubject);
 };
 
 export default appRoutes;

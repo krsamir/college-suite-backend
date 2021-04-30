@@ -82,11 +82,20 @@ const createPosition = (req, res) => {
 
 const getDepartment = (req, res) => {
   appModel.getDepartment(req, (err, response) => {
-    if (err || req.role !== "admin") {
+    if (err) {
       res.status(404).send(err);
-    } else {
+    } else if (req.role === "teacher") {
       res.status(200).send(response);
+    } else if (req.role === "admin") {
+      res.status(200).send(response);
+    } else {
+      res.status(404).send(err);
     }
+    // if (err || req.role !== "teacher") {
+    //   res.status(404).send(err);
+    // } else {
+    //   res.status(200).send(response);
+    // }
   });
 };
 
@@ -150,6 +159,53 @@ const deleteDepartment = (req, res) => {
   });
 };
 
+const getParticularTeacher = (req, res) => {
+  appModel.getParticularTeacher(req, (err, response) => {
+    if (err || req.role !== "teacher") {
+      res.status(404).send(err);
+    } else {
+      res.status(200).send(response);
+    }
+  });
+};
+
+const createSubject = (req, res) => {
+  appModel.createSubject(req, (err, response) => {
+    if (err || req.role !== "teacher") {
+      res.status(404).send(err);
+    } else {
+      res.status(200).send(response);
+    }
+  });
+};
+
+const getSubject = (req, res) => {
+  appModel.getSubject(req, (err, response) => {
+    if (err) {
+      res.status(404).send(err);
+    } else if (req.role === "teacher") {
+      res.status(200).send(response);
+    } else if (req.role === "admin") {
+      res.status(200).send(response);
+    } else {
+      res.status(404).send(err);
+    }
+  });
+};
+
+const editSubject = (req, res) => {
+  appModel.editSubject(req.body, (err, response) => {
+    if (err) {
+      res.status(404).send(err);
+    } else if (req.role === "teacher") {
+      res.status(200).send(response);
+    } else if (req.role === "admin") {
+      res.status(200).send(response);
+    } else {
+      res.status(404).send(err);
+    }
+  });
+};
 export {
   createNotice,
   adminDetails,
@@ -166,4 +222,8 @@ export {
   deletePosition,
   editDepartment,
   deleteDepartment,
+  getParticularTeacher,
+  createSubject,
+  getSubject,
+  editSubject,
 };
