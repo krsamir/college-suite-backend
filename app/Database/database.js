@@ -13,16 +13,11 @@ const db = mysql.createConnection({
   password: DATABASE_PASSWORD,
   database: DATABASE_DB,
 });
-try {
-  db.connect((err) => {
-    if (err) {
-      throw err;
-    }
-    console.log("My SQL Connected.");
-  });
-} catch (error) {
-  console.log("My sql Disconnected")
-}
-
+db.connect((err) => {
+  if (err) {
+    throw err;
+  }
+  console.log("My SQL Connected.");
+});
 
 export default db;
