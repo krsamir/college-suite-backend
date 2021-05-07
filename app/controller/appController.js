@@ -187,6 +187,8 @@ const getSubject = (req, res) => {
       res.status(200).send(response);
     } else if (req.role === "admin") {
       res.status(200).send(response);
+    } else if (req.role === "student") {
+      res.status(200).send(response);
     } else {
       res.status(404).send(err);
     }
@@ -206,6 +208,18 @@ const editSubject = (req, res) => {
     }
   });
 };
+
+const getStudent = (req, res) => {
+  appModel.getStudent(req.user, (err, response) => {
+    if (err || req.role !== "student") {
+      res.status(404).send(err);
+    } else {
+      res.status(200).send(response);
+    }
+  });
+};
+
+const changeSemester = () => {};
 export {
   createNotice,
   adminDetails,
@@ -226,4 +240,6 @@ export {
   createSubject,
   getSubject,
   editSubject,
+  changeSemester,
+  getStudent,
 };

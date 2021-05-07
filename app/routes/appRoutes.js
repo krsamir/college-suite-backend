@@ -18,6 +18,8 @@ import {
   createSubject,
   getSubject,
   editSubject,
+  changeSemester,
+  getStudent,
 } from "../controller/appController.js";
 import auth from "../Authentication/Auth.js";
 const appRoutes = (app) => {
@@ -40,6 +42,8 @@ const appRoutes = (app) => {
   app.route(`/api/createSubject`).post(auth, createSubject);
   app.route(`/api/getSubject`).get(auth, getSubject);
   app.route(`/api/editSubject`).put(auth, editSubject);
+  app.route(`/api/changeSemester`).put(auth, changeSemester);
+  app.route(`/api/getStudent`).get(auth, getStudent);
 };
 
 export default appRoutes;

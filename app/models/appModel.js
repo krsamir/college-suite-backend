@@ -4,7 +4,7 @@ const log = console.log;
 var date = new Date();
 var now = date.toLocaleString();
 Task.adminDetails = async (data, result) => {
-  let query = `SELECT admin_name,email,organization,role  FROM admin_master where email="${data}"`;
+  let query = `select admin_name,email,organization,role  from admin_master where email="${data}"`;
   SQL.query(query, async (err, res) => {
     if (err) {
       console.log(err);
@@ -18,7 +18,7 @@ Task.adminDetails = async (data, result) => {
 Task.createNotice = async (data, result) => {
   const { noticeTitle, noticeBody } = data.body;
   const email = data.user;
-  let query = `INSERT INTO notice (Title, body, created_by,last_updated_at) VALUES ("${noticeTitle}", "${noticeBody}","${email}","${now}" )`;
+  let query = `insert into notice (title, body, created_by,last_updated_at) values ("${noticeTitle}", "${noticeBody}","${email}","${now}" )`;
   SQL.query(query, async (err, res) => {
     if (err) {
       console.log(err);
@@ -43,7 +43,7 @@ Task.getNotice = async (data, result) => {
 
 Task.editNotice = async (data, result) => {
   const { id, noticeTitle, noticeBody } = data;
-  let query = `UPDATE NOTICE SET Title = "${noticeTitle}", BODY="${noticeBody}", last_updated_at="${now}" WHERE (id="${id}")`;
+  let query = `update notice set title = "${noticeTitle}", body="${noticeBody}", last_updated_at="${now}" where (id="${id}")`;
   SQL.query(query, async (err, res) => {
     if (err) {
       console.log(err);
@@ -56,7 +56,7 @@ Task.editNotice = async (data, result) => {
 
 Task.deleteNotice = async (data, result) => {
   const { id } = data;
-  let query = `UPDATE NOTICE SET status = "${0}", last_updated_at="${now}" WHERE (id="${id}")`;
+  let query = `update notice set status = "${0}", last_updated_at="${now}" where (id="${id}")`;
   SQL.query(query, async (err, res) => {
     if (err) {
       console.log(err);
@@ -69,7 +69,7 @@ Task.deleteNotice = async (data, result) => {
 
 Task.createTeacher = async (data, result) => {
   // const { id } = data;
-  let query = `INSERT INTO TEACHER_MASTER (employee_id,name,password,contact,position,department,date_of_joining,isHod,created_by,last_updated_at) VALUES ?`;
+  let query = `INSERT INTO TEACHER_MASTER (employee_id,name,password,contact,position,department,date_of_joining,isHod,created_by,last_updated_at) values ?`;
   SQL.query(
     query,
     [
@@ -98,7 +98,7 @@ Task.createTeacher = async (data, result) => {
 };
 
 Task.createDepartment = async (data, result) => {
-  let query = `INSERT INTO DEPARTMENT (DEPT_ID,DEPT_NAME,section,CREATED_BY) VALUES ?`;
+  let query = `insert into department (dept_id,dept_name,section,created_by) values ?`;
   SQL.query(
     query,
     [
@@ -125,7 +125,7 @@ Task.createDepartment = async (data, result) => {
 };
 
 Task.createPosition = async (data, result) => {
-  let query = `INSERT INTO position_table (position_id,position,created_by) VALUES ?`;
+  let query = `insert into position_table (position_id,position,created_by) values ?`;
   SQL.query(
     query,
     [data.body.map((value) => [value.position_id, value.position, data.user])],
@@ -145,7 +145,7 @@ Task.createPosition = async (data, result) => {
 };
 
 Task.getDepartment = async (data, result) => {
-  let query = `SELECT * FROM department order by dept_id ASC`;
+  let query = `select * from department order by dept_id asc`;
   SQL.query(query, data, async (err, res) => {
     if (err) {
       console.log(err);
@@ -157,7 +157,7 @@ Task.getDepartment = async (data, result) => {
 };
 
 Task.getPosition = async (data, result) => {
-  let query = `SELECT * FROM position_table ORDER BY POSITION_ID ASC`;
+  let query = `select * from position_table order by position_id asc`;
   SQL.query(query, data, async (err, res) => {
     if (err) {
       console.log(err);
@@ -169,7 +169,7 @@ Task.getPosition = async (data, result) => {
 };
 
 Task.getTeacher = async (data, result) => {
-  let query = `SELECT * FROM TEACHER_MASTER ORDER BY ID ASC`;
+  let query = `select * from teacher_master order by id asc`;
   SQL.query(query, data, async (err, res) => {
     if (err) {
       console.log(err);
@@ -182,7 +182,7 @@ Task.getTeacher = async (data, result) => {
 
 Task.editPosition = async (data, result) => {
   const { id, position_id, position, status } = data;
-  let query = `UPDATE position_table SET position_id = "${position_id}", position="${position}", status="${status}" WHERE (id="${id}")`;
+  let query = `update position_table set position_id = "${position_id}", position="${position}", status="${status}" where (id="${id}")`;
   SQL.query(query, async (err, res) => {
     if (err) {
       if (err.code === "ER_DUP_ENTRY") {
@@ -199,7 +199,7 @@ Task.editPosition = async (data, result) => {
 
 Task.deletePosition = async (data, result) => {
   const { id } = data;
-  let query = `UPDATE position_table SET status = "${0}" WHERE (id="${id}")`;
+  let query = `update position_table set status = "${0}" where (id="${id}")`;
   SQL.query(query, async (err, res) => {
     if (err) {
       console.log(err);
@@ -212,7 +212,7 @@ Task.deletePosition = async (data, result) => {
 
 Task.editDepartment = async (data, result) => {
   const { id, dept_id, dept_name, status, section } = data;
-  let query = `UPDATE department SET dept_id = "${dept_id}", dept_name="${dept_name}",section="${section}", status="${status}" WHERE (id="${id}")`;
+  let query = `update department set dept_id = "${dept_id}", dept_name="${dept_name}",section="${section}", status="${status}" where (id="${id}")`;
   SQL.query(query, async (err, res) => {
     if (err) {
       if (err.code === "ER_DUP_ENTRY") {
@@ -229,7 +229,7 @@ Task.editDepartment = async (data, result) => {
 
 Task.deleteDepartment = async (data, result) => {
   const { id } = data;
-  let query = `UPDATE department SET status = "${0}" WHERE (id="${id}")`;
+  let query = `update department set status = "${0}" where (id="${id}")`;
   SQL.query(query, async (err, res) => {
     if (err) {
       console.log(err);
@@ -241,7 +241,7 @@ Task.deleteDepartment = async (data, result) => {
 };
 Task.getParticularTeacher = async (data, result) => {
   const { user } = data;
-  let query = `select employee_id,name,position,department,isHod from teacher_master where employee_id = "${user}"`;
+  let query = `select employee_id,name,position,department,ishod from teacher_master where employee_id = "${user}"`;
   SQL.query(query, data, async (err, res) => {
     if (err) {
       console.log(err);
@@ -298,6 +298,18 @@ Task.editSubject = async (data, result) => {
   const { id, status, isActive } = data;
   let query = `update subject_master set isactive = '${isActive}', status = '${status}' where (id = '${id}')`;
   SQL.query(query, data, async (err, res) => {
+    if (err) {
+      console.log(err);
+      result(err, null);
+    } else {
+      result(null, res);
+    }
+  });
+};
+
+Task.getStudent = async (data, result) => {
+  let query = `select regd_no,name,department,contact,year_of_joining  from student_master where regd_no="${data}"`;
+  SQL.query(query, async (err, res) => {
     if (err) {
       console.log(err);
       result(err, null);
