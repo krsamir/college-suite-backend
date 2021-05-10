@@ -289,7 +289,6 @@ Task.getSubject = async (data, result) => {
       console.log(err);
       result(err, null);
     } else {
-      console.log(res);
       result(null, res);
     }
   });
@@ -309,7 +308,7 @@ Task.editSubject = async (data, result) => {
 };
 
 Task.getStudent = async (data, result) => {
-  let query = `select regd_no,name,department,contact,year_of_joining  from student_master where regd_no="${data}"`;
+  let query = `select regd_no,name,department,contact,year_of_joining,current_semester,section  from student_master where regd_no="${data}"`;
   SQL.query(query, async (err, res) => {
     if (err) {
       console.log(err);
@@ -320,4 +319,39 @@ Task.getStudent = async (data, result) => {
   });
 };
 
+Task.addSemester = async (data, result) => {
+  let query = `update student_master set current_semester = current_semester + 1;`;
+  SQL.query(query, async (err, res) => {
+    if (err) {
+      console.log(err);
+      result(err, null);
+    } else {
+      result(null, res);
+    }
+  });
+};
+
+Task.reduceSemester = async (data, result) => {
+  let query = `update student_master set current_semester = current_semester - 1;`;
+  SQL.query(query, async (err, res) => {
+    if (err) {
+      console.log(err);
+      result(err, null);
+    } else {
+      result(null, res);
+    }
+  });
+};
+
+Task.getSemester = async (data, result) => {
+  let query = `select current_semester from student_master`;
+  SQL.query(query, async (err, res) => {
+    if (err) {
+      console.log(err);
+      result(err, null);
+    } else {
+      result(null, res);
+    }
+  });
+};
 export default Task;

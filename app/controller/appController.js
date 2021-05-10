@@ -219,6 +219,35 @@ const getStudent = (req, res) => {
   });
 };
 
+const addSemester = (req, res) => {
+  appModel.addSemester(req.body, (err, response) => {
+    if (err || req.role !== "admin") {
+      res.status(404).send(err);
+    } else {
+      res.status(200).send(response);
+    }
+  });
+};
+const reduceSemester = (req, res) => {
+  appModel.reduceSemester(req, (err, response) => {
+    if (err || req.role !== "admin") {
+      res.status(404).send(err);
+    } else {
+      res.status(200).send(response);
+    }
+  });
+};
+
+const getSemester = (req, res) => {
+  appModel.getSemester(req, (err, response) => {
+    if (err || req.role !== "admin") {
+      res.status(404).send(err);
+    } else {
+      res.status(200).send(response);
+    }
+  });
+};
+
 const changeSemester = () => {};
 export {
   createNotice,
@@ -242,4 +271,7 @@ export {
   editSubject,
   changeSemester,
   getStudent,
+  addSemester,
+  reduceSemester,
+  getSemester,
 };
