@@ -7,6 +7,7 @@ config();
 import appRoutes from "./app/routes/appRoutes.js";
 import authRoutes from "./app/routes/authRoutes.js";
 import SQL from "./app/Database/database.js";
+
 const app = express();
 app.use(cors());
 app.use(express.json());

@@ -1,3 +1,8 @@
+import path from "path";
+import { fileURLToPath } from "url";
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 import {
   createNotice,
   adminDetails,
@@ -22,6 +27,8 @@ import {
   addSemester,
   reduceSemester,
   getSemester,
+  getAssignment,
+  // downloadAssignment,
 } from "../controller/appController.js";
 import auth from "../Authentication/Auth.js";
 const appRoutes = (app) => {
@@ -48,6 +55,27 @@ const appRoutes = (app) => {
   app.route(`/api/addSemester`).get(auth, addSemester);
   app.route(`/api/reduceSemester`).get(auth, reduceSemester);
   app.route(`/api/getSemester`).get(auth, getSemester);
+  app.route(`/api/assignment`).get(auth, getAssignment);
+  app.route(`/api/download`).post(auth, (req, res) => {
+    const { filename } = req.body;
+    // console.log(filename);
+    // console.log(path.join(__dirname, "../../Upload_File"));
+    const options = {
+      root: path.join(__dirname, "../../Upload_File"),
+      dotfiles: "deny",
+      headers: {
+        "x-timestamp": Date.now(),
+        "x-sent": true,
+      },
+    };
+    res.sendFile(filename, options, function (err) {
+      if (err) {
+        next(err);
+      } else {
+        console.log("Sent:", filename);
+      }
+    });
+  });
 };
 
 export default appRoutes;

@@ -354,4 +354,18 @@ Task.getSemester = async (data, result) => {
     }
   });
 };
+
+Task.getAssignment = async (data, result) => {
+  let query = `select * from uploadtable`;
+  SQL.query(query, async (err, res) => {
+    if (err) {
+      console.log(err);
+      result(err, null);
+    } else {
+      result(null, res);
+    }
+  });
+};
+
+
 export default Task;
