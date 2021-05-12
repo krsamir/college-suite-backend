@@ -367,5 +367,63 @@ Task.getAssignment = async (data, result) => {
   });
 };
 
+const query1 = new Promise((resolve, reject) => {
+  let query = `select distinct(semester) as semester from uploadtable`;
+  SQL.query(query, async (err, res) => {
+    if (err) {
+      console.log(err);
+      reject(err);
+    } else {
+      resolve(res);
+    }
+  });
+});
+
+const query2 = new Promise((resolve, reject) => {
+  let query = `select distinct(section) as section from uploadtable`;
+  SQL.query(query, async (err, res) => {
+    if (err) {
+      console.log(err);
+      reject(err);
+    } else {
+      resolve(res);
+    }
+  });
+});
+
+const query3 = new Promise((resolve, reject) => {
+  let query = `select distinct(subject_name) as subject from uploadtable`;
+  SQL.query(query, async (err, res) => {
+    if (err) {
+      console.log(err);
+      reject(err);
+    } else {
+      resolve(res);
+    }
+  });
+});
+
+const query4 = new Promise((resolve, reject) => {
+  let query = `select distinct(department) as department from uploadtable`;
+  SQL.query(query, async (err, res) => {
+    if (err) {
+      console.log(err);
+      reject(err);
+    } else {
+      resolve(res);
+    }
+  });
+});
+
+Task.getDetails = async (bodyData, result) => {
+  Promise.all([query1, query2, query3, query4])
+    .then((data) => {
+      result(null, data);
+    })
+    .catch((error) => {
+      log(error);
+      result(error, null);
+    });
+};
 
 export default Task;

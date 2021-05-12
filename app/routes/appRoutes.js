@@ -28,6 +28,7 @@ import {
   reduceSemester,
   getSemester,
   getAssignment,
+  getDetails
   // downloadAssignment,
 } from "../controller/appController.js";
 import auth from "../Authentication/Auth.js";
@@ -76,6 +77,8 @@ const appRoutes = (app) => {
       }
     });
   });
+  app.route(`/api/details`).get(auth, getDetails);
+
 };
 
 export default appRoutes;

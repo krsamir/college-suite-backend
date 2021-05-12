@@ -262,19 +262,19 @@ const getAssignment = (req, res) => {
   });
 };
 
-// const downloadAssignment = (req, res) => {
-//   appModel.downloadAssignment(req.body, (err, response) => {
-//     if (err) {
-//       res.status(404).send(err);
-//     } else if (req.role === "teacher") {
-//       res.status(200).send(response);
-//     } else if (req.role === "admin") {
-//       res.status(200).send(response);
-//     } else {
-//       res.status(404).send(err);
-//     }
-//   });
-// };
+const getDetails = (req, res) => {
+  appModel.getDetails(req.body, (err, response) => {
+    if (err) {
+      res.status(404).send(err);
+    } else if (req.role === "teacher") {
+      res.status(200).send(response);
+    } else if (req.role === "admin") {
+      res.status(200).send(response);
+    } else {
+      res.status(404).send(err);
+    }
+  });
+};
 
 export {
   createNotice,
@@ -301,5 +301,6 @@ export {
   reduceSemester,
   getSemester,
   getAssignment,
+  getDetails
   // downloadAssignment,
 };
