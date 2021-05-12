@@ -7,7 +7,10 @@ config();
 import appRoutes from "./app/routes/appRoutes.js";
 import authRoutes from "./app/routes/authRoutes.js";
 import SQL from "./app/Database/database.js";
-
+import path from "path";
+import { fileURLToPath } from "url";
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 const app = express();
 app.use(cors({ origin: `https://lucid-mcnulty-9e22e3.netlify.app/` }));
 app.use(express.json());
@@ -18,7 +21,7 @@ var date = new Date();
 var now = date.toLocaleString();
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, "C:\\Users\\samir\\Desktop\\College-Suite\\backend\\Upload_File");
+    cb(null, path.join(__dirname,"./Upload_File"));
   },
   filename: function (req, file, cb) {
     log(chalk.white("File Uploaded >> Assignments >> "));
