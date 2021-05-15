@@ -12,8 +12,16 @@ import { fileURLToPath } from "url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const app = express();
-app.use(cors({ origin: `https://lucid-mcnulty-9e22e3.netlify.app` }));
-// app.use(cors({ origin: `http://localhost:3000` }));
+const { PORT, NODE_ENV, CLIENT_URL } = process.env;
+// app.use(cors({ origin: `https://lucid-mcnulty-9e22e3.netlify.app` }));
+// console.log(path.join(__dirname, "../frontend/build"));
+// to refer build pages
+// app.use(express.static(path.join(__dirname, "../frontend/build")));
+// app.get("/*", (req, res) => {
+//   res.sendFile(path.join(__dirname, "../frontend/build", "index.html"));
+// });
+console.log(chalk.bgGreen(`Connected with ${CLIENT_URL}`));
+app.use(cors({ origin: CLIENT_URL }));
 app.use(express.json());
 appRoutes(app);
 authRoutes(app);
@@ -22,7 +30,7 @@ var date = new Date();
 var now = date.toLocaleString();
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, path.join(__dirname,"./Upload_File"));
+    cb(null, path.join(__dirname, "./Upload_File"));
   },
   filename: function (req, file, cb) {
     log(chalk.white("File Uploaded >> Assignments >> "));
@@ -76,9 +84,9 @@ app.post(
   }
 );
 
-app.get("/", (req, res) => {
-  res.send("Backend API");
-});
+// app.get("/", (req, res) => {
+//   res.send("Backend API");
+// });
 
 const adminDetails = async (data, result) => {
   const {
@@ -104,7 +112,6 @@ const adminDetails = async (data, result) => {
   });
 };
 
-const { PORT, NODE_ENV } = process.env;
 app.listen(
   PORT,
   console.log(`Server running in ${NODE_ENV} mode on port ${PORT}`)

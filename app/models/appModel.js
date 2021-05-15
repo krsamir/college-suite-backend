@@ -169,7 +169,7 @@ Task.getPosition = async (data, result) => {
 };
 
 Task.getTeacher = async (data, result) => {
-  let query = `select * from teacher_master order by id asc`;
+  let query = `select employee_id,name, contact, position, department, date_of_joining,isHod,created_by, last_updated_at from teacher_master order by id asc`;
   SQL.query(query, data, async (err, res) => {
     if (err) {
       console.log(err);
@@ -367,63 +367,78 @@ Task.getAssignment = async (data, result) => {
   });
 };
 
-const query1 = new Promise((resolve, reject) => {
-  let query = `select distinct(semester) as semester from uploadtable`;
+Task.updateMarks = async (data, result) => {
+  const { id, assignedmarks, totalmarks } = data;
+  let query = `update uploadtable set assignedmarks = "${assignedmarks}", totalmarks = "${totalmarks}" where id="${id}"`;
   SQL.query(query, async (err, res) => {
     if (err) {
       console.log(err);
-      reject(err);
+      result(err, null);
     } else {
-      resolve(res);
+      result(null, res);
     }
   });
-});
+};
 
-const query2 = new Promise((resolve, reject) => {
-  let query = `select distinct(section) as section from uploadtable`;
+Task.createSection = async (data, result) => {
+  const arrays = [];
+  const final = arrays.concat(...data);
+  let query = `insert into department_section (dept_name,subject_name,section) values ?`;
+  SQL.query(
+    query,
+    [final.map((val) => [val.departmentName, val.subjectName, val.section])],
+    async (err, res) => {
+      if (err) {
+        if (err.code === "ER_DUP_ENTRY") {
+          result(null, { status: "duplicate" });
+        } else {
+          console.log(err);
+          result(err, null);
+        }
+      } else {
+        result(null, { status: "created" });
+      }
+    }
+  );
+  result(null, { status: "created" });
+};
+
+Task.getSection = async (data, result) => {
+  let query = `select * from department_section order by dept_name`;
   SQL.query(query, async (err, res) => {
     if (err) {
       console.log(err);
-      reject(err);
+      result(err, null);
     } else {
-      resolve(res);
+      result(null, res);
     }
   });
-});
+};
 
-const query3 = new Promise((resolve, reject) => {
-  let query = `select distinct(subject_name) as subject from uploadtable`;
+Task.editSection = async (data, result) => {
+  const { name, id } = data;
+  let query = `update department_section set allocated_teacher = '${name}' WHERE (id = "${id}");`;
   SQL.query(query, async (err, res) => {
     if (err) {
       console.log(err);
-      reject(err);
+      result(err, null);
     } else {
-      resolve(res);
+      result(null, res);
     }
   });
-});
+};
 
-const query4 = new Promise((resolve, reject) => {
-  let query = `select distinct(department) as department from uploadtable`;
+Task.deleteSection = async (data, result) => {
+  const { id } = data;
+  let query = `update department_section set status = '0' WHERE (id = "${id}");`;
   SQL.query(query, async (err, res) => {
     if (err) {
       console.log(err);
-      reject(err);
+      result(err, null);
     } else {
-      resolve(res);
+      result(null, res);
     }
   });
-});
-
-Task.getDetails = async (bodyData, result) => {
-  Promise.all([query1, query2, query3, query4])
-    .then((data) => {
-      result(null, data);
-    })
-    .catch((error) => {
-      log(error);
-      result(error, null);
-    });
 };
 
 export default Task;

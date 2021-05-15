@@ -28,8 +28,12 @@ import {
   reduceSemester,
   getSemester,
   getAssignment,
-  getDetails
-  // downloadAssignment,
+  updateMarks,
+  getDashboardData,
+  createSection,
+  getSection,
+  editSection,
+  deleteSection,
 } from "../controller/appController.js";
 import auth from "../Authentication/Auth.js";
 const appRoutes = (app) => {
@@ -57,7 +61,7 @@ const appRoutes = (app) => {
   app.route(`/api/reduceSemester`).get(auth, reduceSemester);
   app.route(`/api/getSemester`).get(auth, getSemester);
   app.route(`/api/assignment`).get(auth, getAssignment);
-  app.route(`/api/download`).post(auth, (req, res) => {
+  app.route(`/api/download`).post(auth, (req, res, next) => {
     const { filename } = req.body;
     // console.log(filename);
     // console.log(path.join(__dirname, "../../Upload_File"));
@@ -71,14 +75,18 @@ const appRoutes = (app) => {
     };
     res.sendFile(filename, options, function (err) {
       if (err) {
-        next(err);
+        next("File not found");
       } else {
         console.log("Sent:", filename);
       }
     });
   });
-  app.route(`/api/details`).get(auth, getDetails);
-
+  app.route(`/api/updateMarks`).post(auth, updateMarks);
+  app.route(`/api/getDashboard`).get(auth, getDashboardData);
+  app.route(`/api/createSection`).post(auth, createSection);
+  app.route(`/api/getSection`).get(auth, getSection);
+  app.route(`/api/editSection`).post(auth, editSection);
+  app.route(`/api/deleteSection`).post(auth, deleteSection);
 };
 
 export default appRoutes;

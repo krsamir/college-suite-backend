@@ -1,4 +1,5 @@
 import appModel from "../models/appModel.js";
+import multiData from "../models/multiData.js";
 
 const adminDetails = (req, res) => {
   appModel.adminDetails(req.user, (err, response) => {
@@ -262,20 +263,64 @@ const getAssignment = (req, res) => {
   });
 };
 
-const getDetails = (req, res) => {
-  appModel.getDetails(req.body, (err, response) => {
-    if (err) {
+const updateMarks = (req, res) => {
+  appModel.updateMarks(req.body, (err, response) => {
+    if (err || req.role !== "teacher") {
       res.status(404).send(err);
-    } else if (req.role === "teacher") {
-      res.status(200).send(response);
-    } else if (req.role === "admin") {
-      res.status(200).send(response);
     } else {
-      res.status(404).send(err);
+      res.status(200).send(response);
     }
   });
 };
 
+const getDashboardData = (req, res) => {
+  multiData.getDashboardData(req.body, (err, response) => {
+    if (err || req.role !== "admin") {
+      res.status(404).send(err);
+    } else {
+      res.status(200).send(response);
+    }
+  });
+};
+
+const createSection = (req, res) => {
+  appModel.createSection(req.body, (err, response) => {
+    if (err || req.role !== "admin") {
+      res.status(404).send(err);
+    } else {
+      res.status(200).send(response);
+    }
+  });
+};
+
+const getSection = (req, res) => {
+  appModel.getSection(req.body, (err, response) => {
+    if (err || req.role !== "admin") {
+      res.status(404).send(err);
+    } else {
+      res.status(200).send(response);
+    }
+  });
+};
+
+const editSection = (req, res) => {
+  appModel.editSection(req.body, (err, response) => {
+    if (err || req.role !== "admin") {
+      res.status(404).send(err);
+    } else {
+      res.status(200).send(response);
+    }
+  });
+};
+const deleteSection = (req, res) => {
+  appModel.deleteSection(req.body, (err, response) => {
+    if (err || req.role !== "admin") {
+      res.status(404).send(err);
+    } else {
+      res.status(200).send(response);
+    }
+  });
+};
 export {
   createNotice,
   adminDetails,
@@ -301,6 +346,10 @@ export {
   reduceSemester,
   getSemester,
   getAssignment,
-  getDetails
-  // downloadAssignment,
+  updateMarks,
+  getDashboardData,
+  createSection,
+  getSection,
+  editSection,
+  deleteSection,
 };
