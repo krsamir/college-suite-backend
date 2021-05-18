@@ -462,7 +462,6 @@ Task.getParticularSection = async (data, result) => {
   });
 };
 Task.getSectionByDepartment = async (data, result) => {
-  log("get section by department");
   const { dept_id } = data;
   let query = `select dept_id,dept_name,section from department_section where dept_id = "${dept_id}" group by section`;
   SQL.query(query, async (err, res) => {
