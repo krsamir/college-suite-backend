@@ -295,10 +295,16 @@ const createSection = (req, res) => {
 
 const getSection = (req, res) => {
   appModel.getSection(req.body, (err, response) => {
-    if (err || req.role !== "admin") {
+    if (err) {
       res.status(404).send(err);
-    } else {
+    } else if (req.role === "teacher") {
       res.status(200).send(response);
+    } else if (req.role === "admin") {
+      res.status(200).send(response);
+    } else if (req.role === "student") {
+      res.status(200).send(response);
+    } else {
+      res.status(404).send(err);
     }
   });
 };
@@ -321,6 +327,26 @@ const deleteSection = (req, res) => {
     }
   });
 };
+const getParticularSection = (req, res) => {
+  appModel.getParticularSection(req.body, (err, response) => {
+    if (err || req.role !== "student") {
+      res.status(404).send(err);
+    } else {
+      res.status(200).send(response);
+    }
+  });
+};
+
+const getSectionByDepartment = (req, res) => {
+  appModel.getSectionByDepartment(req.body, (err, response) => {
+    if (err || req.role !== "admin") {
+      res.status(404).send(err);
+    } else {
+      res.status(200).send(response);
+    }
+  });
+};
+
 export {
   createNotice,
   adminDetails,
@@ -352,4 +378,6 @@ export {
   getSection,
   editSection,
   deleteSection,
+  getParticularSection,
+  getSectionByDepartment,
 };

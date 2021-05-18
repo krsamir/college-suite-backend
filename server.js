@@ -51,7 +51,7 @@ app.post(
       res.send({ status: "failed" });
       // return next(error);
     }
-    const { regd_no, department, subjectName, semester, section } = req.body;
+    const { regd_no, department, subjectName, semester, section, subjectCode } = req.body;
     // log(
     //   regd_no,
     //   department,
@@ -66,6 +66,7 @@ app.post(
     const data = {
       regd_no,
       department,
+      subjectCode,
       subjectName,
       semester,
       filename: req.files[0].filename,
@@ -92,6 +93,7 @@ const adminDetails = async (data, result) => {
   const {
     regd_no,
     department,
+    subjectCode,
     subjectName,
     semester,
     filename,
@@ -99,8 +101,8 @@ const adminDetails = async (data, result) => {
     mimetype,
     now,
   } = data;
-  let query = `INSERT INTO uploadtable (regd_no, department, subject_name, semester, filename, section, mimetype, uploadedat) 
-  VALUES ('${regd_no}', '${department}', '${subjectName}', '${semester}', '${filename}', '${section}', '${mimetype}', '${now}');
+  let query = `INSERT INTO uploadtable (regd_no, department, subjectCode, subject_name, semester, filename, section, mimetype, uploadedat)
+  VALUES ('${regd_no}', '${department}', '${subjectCode}', '${subjectName}', '${semester}', '${filename}', '${section}', '${mimetype}', '${now}');
   `;
   SQL.query(query, async (err, res) => {
     if (err) {
@@ -114,5 +116,5 @@ const adminDetails = async (data, result) => {
 
 app.listen(
   PORT,
-  console.log(`Server running in ${NODE_ENV} mode on port ${PORT}`)
+  console.log(chalk.bgGreen(`Server running in ${NODE_ENV} mode on port ${PORT}`))
 );

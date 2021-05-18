@@ -383,10 +383,18 @@ Task.updateMarks = async (data, result) => {
 Task.createSection = async (data, result) => {
   const arrays = [];
   const final = arrays.concat(...data);
-  let query = `insert into department_section (dept_name,subject_name,section) values ?`;
+  let query = `insert into department_section (dept_name,subjectCode,subject_name,section,dept_id) values ?`;
   SQL.query(
     query,
-    [final.map((val) => [val.departmentName, val.subjectName, val.section])],
+    [
+      final.map((val) => [
+        val.departmentName,
+        val.subjectCode,
+        val.subjectName,
+        val.section,
+        val.departmentId,
+      ]),
+    ],
     async (err, res) => {
       if (err) {
         if (err.code === "ER_DUP_ENTRY") {
@@ -400,7 +408,6 @@ Task.createSection = async (data, result) => {
       }
     }
   );
-  result(null, { status: "created" });
 };
 
 Task.getSection = async (data, result) => {
@@ -431,6 +438,33 @@ Task.editSection = async (data, result) => {
 Task.deleteSection = async (data, result) => {
   const { id } = data;
   let query = `update department_section set status = '0' WHERE (id = "${id}");`;
+  SQL.query(query, async (err, res) => {
+    if (err) {
+      console.log(err);
+      result(err, null);
+    } else {
+      result(null, res);
+    }
+  });
+};
+
+Task.getParticularSection = async (data, result) => {
+  const { id } = data;
+  let query = `select * from department_section where dept_name = "cse"
+  and section = "A"`;
+  SQL.query(query, async (err, res) => {
+    if (err) {
+      console.log(err);
+      result(err, null);
+    } else {
+      result(null, res);
+    }
+  });
+};
+Task.getSectionByDepartment = async (data, result) => {
+  log("get section by department");
+  const { dept_id } = data;
+  let query = `select dept_id,dept_name,section from department_section where dept_id = "${dept_id}" group by section`;
   SQL.query(query, async (err, res) => {
     if (err) {
       console.log(err);

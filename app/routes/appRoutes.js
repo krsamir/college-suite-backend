@@ -34,6 +34,8 @@ import {
   getSection,
   editSection,
   deleteSection,
+  getParticularSection,
+  getSectionByDepartment,
 } from "../controller/appController.js";
 import auth from "../Authentication/Auth.js";
 const appRoutes = (app) => {
@@ -87,6 +89,8 @@ const appRoutes = (app) => {
   app.route(`/api/getSection`).get(auth, getSection);
   app.route(`/api/editSection`).post(auth, editSection);
   app.route(`/api/deleteSection`).post(auth, deleteSection);
+  app.route(`/api/getParticularSection`).get(auth, getParticularSection);
+  app.route(`/api/getSectionByDept`).post(auth, getSectionByDepartment);
 };
 
 export default appRoutes;
