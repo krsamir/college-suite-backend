@@ -356,7 +356,10 @@ Task.getSemester = async (data, result) => {
 };
 
 Task.getAssignment = async (data, result) => {
-  let query = `select * from uploadtable`;
+  const { user } = data;
+  let query = `select t1.*,t2.allocated_teacher from uploadtable as t1 left join department_section as t2 
+              on t1.subjectCode = t2.subjectCode and t1.department = t2.dept_name and t1.section = t2.section
+              where allocated_teacher = "${user}"`;
   SQL.query(query, async (err, res) => {
     if (err) {
       console.log(err);
@@ -410,7 +413,7 @@ Task.createSection = async (data, result) => {
 };
 
 Task.getSection = async (data, result) => {
-  let query = `select * from department_section order by dept_name`;
+  let query = `select t1.*,t2.semester from department_section as t1 left join subject_master as t2 on t1.subjectCode = t2.subjectCode order by dept_name`;
   SQL.query(query, async (err, res) => {
     if (err) {
       console.log(err);

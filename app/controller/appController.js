@@ -1,7 +1,7 @@
 import appModel from "../models/appModel.js";
 import multiData from "../models/multiData.js";
-
-const adminDetails = (req, res) => {
+const Task = () => {};
+Task.adminDetails = (req, res) => {
   appModel.adminDetails(req.user, (err, response) => {
     if (err || req.role !== "admin") {
       res.status(404).send(err);
@@ -11,7 +11,7 @@ const adminDetails = (req, res) => {
   });
 };
 
-const createNotice = (req, res) => {
+Task.createNotice = (req, res) => {
   appModel.createNotice(req, (err, response) => {
     if (err || req.role !== "admin") {
       res.status(404).send(err);
@@ -21,7 +21,7 @@ const createNotice = (req, res) => {
   });
 };
 
-const getNotice = (req, res) => {
+Task.getNotice = (req, res) => {
   appModel.getNotice(req.body, (err, response) => {
     if (err) {
       res.status(404).send(err);
@@ -31,7 +31,7 @@ const getNotice = (req, res) => {
   });
 };
 
-const editNotice = (req, res) => {
+Task.editNotice = (req, res) => {
   appModel.editNotice(req.body, (err, response) => {
     if (err || req.role !== "admin") {
       res.status(404).send(err);
@@ -41,7 +41,7 @@ const editNotice = (req, res) => {
   });
 };
 
-const deleteNotice = (req, res) => {
+Task.deleteNotice = (req, res) => {
   appModel.deleteNotice(req.body, (err, response) => {
     if (err || req.role !== "admin") {
       res.status(404).send(err);
@@ -51,7 +51,7 @@ const deleteNotice = (req, res) => {
   });
 };
 
-const createTeacher = (req, res) => {
+Task.createTeacher = (req, res) => {
   appModel.createTeacher(req, (err, response) => {
     if (err || req.role !== "admin") {
       res.status(404).send(err);
@@ -61,7 +61,7 @@ const createTeacher = (req, res) => {
   });
 };
 
-const createDepartment = (req, res) => {
+Task.createDepartment = (req, res) => {
   appModel.createDepartment(req, (err, response) => {
     if (err || req.role !== "admin") {
       res.status(404).send(err);
@@ -71,7 +71,7 @@ const createDepartment = (req, res) => {
   });
 };
 
-const createPosition = (req, res) => {
+Task.createPosition = (req, res) => {
   appModel.createPosition(req, (err, response) => {
     if (err || req.role !== "admin") {
       res.status(404).send(err);
@@ -81,7 +81,7 @@ const createPosition = (req, res) => {
   });
 };
 
-const getDepartment = (req, res) => {
+Task.getDepartment = (req, res) => {
   appModel.getDepartment(req, (err, response) => {
     if (err) {
       res.status(404).send(err);
@@ -100,7 +100,7 @@ const getDepartment = (req, res) => {
   });
 };
 
-const getPosition = (req, res) => {
+Task.getPosition = (req, res) => {
   appModel.getPosition(req, (err, response) => {
     if (err || req.role !== "admin") {
       res.status(404).send(err);
@@ -110,7 +110,7 @@ const getPosition = (req, res) => {
   });
 };
 
-const getTeacher = (req, res) => {
+Task.getTeacher = (req, res) => {
   appModel.getTeacher(req, (err, response) => {
     if (err || req.role !== "admin") {
       res.status(404).send(err);
@@ -120,7 +120,7 @@ const getTeacher = (req, res) => {
   });
 };
 
-const editPosition = (req, res) => {
+Task.editPosition = (req, res) => {
   appModel.editPosition(req.body, (err, response) => {
     if (err || req.role !== "admin") {
       res.status(404).send(err);
@@ -130,7 +130,7 @@ const editPosition = (req, res) => {
   });
 };
 
-const deletePosition = (req, res) => {
+Task.deletePosition = (req, res) => {
   appModel.deletePosition(req.body, (err, response) => {
     if (err || req.role !== "admin") {
       res.status(404).send(err);
@@ -140,7 +140,7 @@ const deletePosition = (req, res) => {
   });
 };
 
-const editDepartment = (req, res) => {
+Task.editDepartment = (req, res) => {
   appModel.editDepartment(req.body, (err, response) => {
     if (err || req.role !== "admin") {
       res.status(404).send(err);
@@ -150,7 +150,7 @@ const editDepartment = (req, res) => {
   });
 };
 
-const deleteDepartment = (req, res) => {
+Task.deleteDepartment = (req, res) => {
   appModel.deleteDepartment(req.body, (err, response) => {
     if (err || req.role !== "admin") {
       res.status(404).send(err);
@@ -160,7 +160,7 @@ const deleteDepartment = (req, res) => {
   });
 };
 
-const getParticularTeacher = (req, res) => {
+Task.getParticularTeacher = (req, res) => {
   appModel.getParticularTeacher(req, (err, response) => {
     if (err || req.role !== "teacher") {
       res.status(404).send(err);
@@ -170,7 +170,7 @@ const getParticularTeacher = (req, res) => {
   });
 };
 
-const createSubject = (req, res) => {
+Task.createSubject = (req, res) => {
   appModel.createSubject(req, (err, response) => {
     if (err || req.role !== "teacher") {
       res.status(404).send(err);
@@ -180,7 +180,7 @@ const createSubject = (req, res) => {
   });
 };
 
-const getSubject = (req, res) => {
+Task.getSubject = (req, res) => {
   appModel.getSubject(req, (err, response) => {
     if (err) {
       res.status(404).send(err);
@@ -196,7 +196,7 @@ const getSubject = (req, res) => {
   });
 };
 
-const editSubject = (req, res) => {
+Task.editSubject = (req, res) => {
   appModel.editSubject(req.body, (err, response) => {
     if (err) {
       res.status(404).send(err);
@@ -210,7 +210,7 @@ const editSubject = (req, res) => {
   });
 };
 
-const getStudent = (req, res) => {
+Task.getStudent = (req, res) => {
   appModel.getStudent(req.user, (err, response) => {
     if (err || req.role !== "student") {
       res.status(404).send(err);
@@ -220,7 +220,7 @@ const getStudent = (req, res) => {
   });
 };
 
-const addSemester = (req, res) => {
+Task.addSemester = (req, res) => {
   appModel.addSemester(req.body, (err, response) => {
     if (err || req.role !== "admin") {
       res.status(404).send(err);
@@ -229,7 +229,7 @@ const addSemester = (req, res) => {
     }
   });
 };
-const reduceSemester = (req, res) => {
+Task.reduceSemester = (req, res) => {
   appModel.reduceSemester(req, (err, response) => {
     if (err || req.role !== "admin") {
       res.status(404).send(err);
@@ -239,7 +239,7 @@ const reduceSemester = (req, res) => {
   });
 };
 
-const getSemester = (req, res) => {
+Task.getSemester = (req, res) => {
   appModel.getSemester(req, (err, response) => {
     if (err || req.role !== "admin") {
       res.status(404).send(err);
@@ -249,8 +249,8 @@ const getSemester = (req, res) => {
   });
 };
 
-const getAssignment = (req, res) => {
-  appModel.getAssignment(req.body, (err, response) => {
+Task.getAssignment = (req, res) => {
+  appModel.getAssignment(req, (err, response) => {
     if (err) {
       res.status(404).send(err);
     } else if (req.role === "teacher") {
@@ -263,7 +263,7 @@ const getAssignment = (req, res) => {
   });
 };
 
-const updateMarks = (req, res) => {
+Task.updateMarks = (req, res) => {
   appModel.updateMarks(req.body, (err, response) => {
     if (err || req.role !== "teacher") {
       res.status(404).send(err);
@@ -273,7 +273,7 @@ const updateMarks = (req, res) => {
   });
 };
 
-const getDashboardData = (req, res) => {
+Task.getDashboardData = (req, res) => {
   multiData.getDashboardData(req.body, (err, response) => {
     if (err || req.role !== "admin") {
       res.status(404).send(err);
@@ -283,7 +283,7 @@ const getDashboardData = (req, res) => {
   });
 };
 
-const createSection = (req, res) => {
+Task.createSection = (req, res) => {
   appModel.createSection(req.body, (err, response) => {
     if (err || req.role !== "admin") {
       res.status(404).send(err);
@@ -293,7 +293,7 @@ const createSection = (req, res) => {
   });
 };
 
-const getSection = (req, res) => {
+Task.getSection = (req, res) => {
   appModel.getSection(req.body, (err, response) => {
     if (err) {
       res.status(404).send(err);
@@ -309,7 +309,7 @@ const getSection = (req, res) => {
   });
 };
 
-const editSection = (req, res) => {
+Task.editSection = (req, res) => {
   appModel.editSection(req.body, (err, response) => {
     if (err || req.role !== "admin") {
       res.status(404).send(err);
@@ -318,7 +318,7 @@ const editSection = (req, res) => {
     }
   });
 };
-const deleteSection = (req, res) => {
+Task.deleteSection = (req, res) => {
   appModel.deleteSection(req.body, (err, response) => {
     if (err || req.role !== "admin") {
       res.status(404).send(err);
@@ -327,7 +327,7 @@ const deleteSection = (req, res) => {
     }
   });
 };
-const getParticularSection = (req, res) => {
+Task.getParticularSection = (req, res) => {
   appModel.getParticularSection(req.body, (err, response) => {
     if (err || req.role !== "student") {
       res.status(404).send(err);
@@ -337,7 +337,7 @@ const getParticularSection = (req, res) => {
   });
 };
 
-const getSectionByDepartment = (req, res) => {
+Task.getSectionByDepartment = (req, res) => {
   appModel.getSectionByDepartment(req.body, (err, response) => {
     if (err || req.role !== "admin") {
       res.status(404).send(err);
@@ -346,38 +346,4 @@ const getSectionByDepartment = (req, res) => {
     }
   });
 };
-
-export {
-  createNotice,
-  adminDetails,
-  getNotice,
-  editNotice,
-  deleteNotice,
-  createTeacher,
-  createDepartment,
-  createPosition,
-  getDepartment,
-  getPosition,
-  getTeacher,
-  editPosition,
-  deletePosition,
-  editDepartment,
-  deleteDepartment,
-  getParticularTeacher,
-  createSubject,
-  getSubject,
-  editSubject,
-  getStudent,
-  addSemester,
-  reduceSemester,
-  getSemester,
-  getAssignment,
-  updateMarks,
-  getDashboardData,
-  createSection,
-  getSection,
-  editSection,
-  deleteSection,
-  getParticularSection,
-  getSectionByDepartment,
-};
+export default Task;
