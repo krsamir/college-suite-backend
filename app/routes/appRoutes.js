@@ -27,10 +27,12 @@ const appRoutes = (app) => {
     });
   });
   app.route("/api/admin").get(auth, appController.adminDetails);
+
   app.route("/api/create-notice").post(auth, appController.createNotice);
   app.route("/api/get_notice").get(appController.getNotice);
   app.route("/api/edit_notice").put(auth, appController.editNotice);
   app.route("/api/delete_notice").put(auth, appController.deleteNotice);
+
   app.route("/api/create_teacher").post(auth, appController.createTeacher);
   app.route(`/api/getTeacher`).get(auth, appController.getTeacher);
   app
@@ -66,6 +68,7 @@ const appRoutes = (app) => {
   app
     .route(`/api/getSectionByDept`)
     .post(auth, appController.getSectionByDepartment);
+  app.route(`/api/attendance`).post(auth, appController.attendance);
 };
 
 export default appRoutes;

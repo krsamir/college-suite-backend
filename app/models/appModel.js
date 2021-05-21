@@ -476,4 +476,24 @@ Task.getSectionByDepartment = async (data, result) => {
   });
 };
 
+Task.attendance = async (data, result) => {
+  const { uniqueId, name, regd_no, department, section, time } = data;
+  log(data);
+  let query = `insert into attendance_master (uniqueid, name, regd_no, department, section, date, time)
+    values ('${uniqueId}', '${name}', '${regd_no}', '${department}', '${section}', date(now())  , "${time}" );
+  `;
+  SQL.query(query, async (err, res) => {
+    if (err) {
+      if (err.code === "ER_DUP_ENTRY") {
+        result(null, { status: "duplicate" });
+      } else {
+        console.log(err);
+        result(err, null);
+      }
+    } else {
+      result(null, { status: "punched" });
+    }
+  });
+};
+
 export default Task;

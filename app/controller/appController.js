@@ -346,4 +346,15 @@ Task.getSectionByDepartment = (req, res) => {
     }
   });
 };
+
+Task.attendance = (req, res) => {
+  appModel.attendance(req.body, (err, response) => {
+    if (err || req.role !== "student") {
+      res.status(404).send(err);
+    } else {
+      res.status(200).send(response);
+    }
+  });
+};
+
 export default Task;
