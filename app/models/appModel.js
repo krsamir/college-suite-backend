@@ -477,10 +477,18 @@ Task.getSectionByDepartment = async (data, result) => {
 };
 
 Task.attendance = async (data, result) => {
-  const { uniqueId, name, regd_no, department, section, time } = data;
+  const {
+    uniqueId,
+    name,
+    regd_no,
+    department,
+    section,
+    time,
+    current_semester,
+  } = data;
   log(data);
-  let query = `insert into attendance_master (uniqueid, name, regd_no, department, section, date, time)
-    values ('${uniqueId}', '${name}', '${regd_no}', '${department}', '${section}', date(now())  , "${time}" );
+  let query = `insert into attendance_master (uniqueid, name, regd_no, department, section, date, time, current_semester)
+    values ('${uniqueId}', '${name}', '${regd_no}', '${department}', '${section}', date(now())  , "${time}","${current_semester}" );
   `;
   SQL.query(query, async (err, res) => {
     if (err) {
@@ -492,6 +500,61 @@ Task.attendance = async (data, result) => {
       }
     } else {
       result(null, { status: "punched" });
+    }
+  });
+};
+
+Task.getallSection = async (data, result) => {
+  let query = `select distinct dept_name,section,sectionadmin from department_section order by dept_name asc`;
+  SQL.query(query, async (err, res) => {
+    if (err) {
+      console.log(err);
+      result(err, null);
+    } else {
+      result(null, res);
+    }
+  });
+};
+
+Task.sectionAdmin = async (data, result) => {
+  const { name, dept_name, section } = data;
+  let query = `update department_section set sectionadmin = "${name}" where dept_name = "${dept_name}" and section = "${section}";  `;
+  SQL.query(query, async (err, res) => {
+    if (err) {
+      console.log(err);
+      result(err, null);
+    } else {
+      result(null, res);
+    }
+  });
+};
+
+Task.getAttendanceByTeacer = async (data, result) => {
+  log(data.body);
+  let query = `select t1.name,t1.regd_no,t1.department,t1.section,t1.date,t1.time,t1.current_semester,t2.sectionadmin from attendance_master as t1 join (select distinct dept_name,section,sectionadmin 
+    from department_section) as t2 on t1.department = t2.dept_name and t1.section = t2.section
+    where sectionadmin = "${data.user}" and regd_no = "${data.body.studentid}"`;
+  SQL.query(query, async (err, res) => {
+    if (err) {
+      console.log(err);
+      result(err, null);
+    } else {
+      result(null, res);
+    }
+  });
+};
+
+Task.getStudentList = async (data, result) => {
+  let query = `select id,t1.regd_no,t1.name,t1.department,t1.current_semester,t1.section,t2.sectionadmin from student_master as t1 join
+  (select distinct dept_name,section,sectionadmin from department_section ) as t2 on 
+  t1.department = t2.dept_name and t1.section = t2.section where current_semester
+   between 0 and 8 and sectionadmin = "${data.user}" order by t1.department asc`;
+  SQL.query(query, async (err, res) => {
+    if (err) {
+      console.log(err);
+      result(err, null);
+    } else {
+      result(null, res);
     }
   });
 };

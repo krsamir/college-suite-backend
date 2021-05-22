@@ -357,4 +357,44 @@ Task.attendance = (req, res) => {
   });
 };
 
+Task.getallSection = (req, res) => {
+  appModel.getallSection(req.body, (err, response) => {
+    if (err || req.role !== "admin") {
+      res.status(404).send(err);
+    } else {
+      res.status(200).send(response);
+    }
+  });
+};
+
+Task.sectionAdmin = (req, res) => {
+  appModel.sectionAdmin(req.body, (err, response) => {
+    if (err || req.role !== "admin") {
+      res.status(404).send(err);
+    } else {
+      res.status(200).send(response);
+    }
+  });
+};
+
+Task.getAttendanceByTeacer = (req, res) => {
+  appModel.getAttendanceByTeacer(req, (err, response) => {
+    if (err || req.role !== "teacher") {
+      res.status(404).send(err);
+    } else {
+      res.status(200).send(response);
+    }
+  });
+};
+
+Task.getStudentList = (req, res) => {
+  appModel.getStudentList(req, (err, response) => {
+    if (err || req.role !== "teacher") {
+      res.status(404).send(err);
+    } else {
+      res.status(200).send(response);
+    }
+  });
+};
+
 export default Task;

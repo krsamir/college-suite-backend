@@ -69,6 +69,12 @@ const appRoutes = (app) => {
     .route(`/api/getSectionByDept`)
     .post(auth, appController.getSectionByDepartment);
   app.route(`/api/attendance`).post(auth, appController.attendance);
+  app.route(`/api/getallSection`).get(auth, appController.getallSection);
+  app.route(`/api/sectionAdmin`).post(auth, appController.sectionAdmin);
+  app
+    .route(`/api/getAttendanceByTeacher`)
+    .post(auth, appController.getAttendanceByTeacer);
+  app.route(`/api/getStudentList`).get(auth, appController.getStudentList);
 };
 
 export default appRoutes;
