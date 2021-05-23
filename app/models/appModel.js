@@ -530,7 +530,6 @@ Task.sectionAdmin = async (data, result) => {
 };
 
 Task.getAttendanceByTeacer = async (data, result) => {
-  log(data.body);
   let query = `select t1.name,t1.regd_no,t1.department,t1.section,t1.date,t1.time,t1.current_semester,t2.sectionadmin from attendance_master as t1 join (select distinct dept_name,section,sectionadmin 
     from department_section) as t2 on t1.department = t2.dept_name and t1.section = t2.section
     where sectionadmin = "${data.user}" and regd_no = "${data.body.studentid}"`;
