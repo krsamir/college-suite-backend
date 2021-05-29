@@ -51,7 +51,8 @@ app.post(
       res.send({ status: "failed" });
       // return next(error);
     }
-    const { regd_no, department, subjectName, semester, section, subjectCode } = req.body;
+    const { regd_no, department, subjectName, semester, section, subjectCode } =
+      req.body;
     // log(
     //   regd_no,
     //   department,
@@ -116,5 +117,7 @@ const adminDetails = async (data, result) => {
 
 app.listen(
   PORT,
-  console.log(chalk.bgGreen(`Server running in ${NODE_ENV} mode on port ${PORT}`))
+  console.log(
+    chalk.bgGreen(`Server running in ${NODE_ENV} mode on port ${PORT}`)
+  )
 );
