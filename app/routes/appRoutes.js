@@ -75,6 +75,7 @@ const appRoutes = (app) => {
     .route(`/api/getAttendanceByTeacher`)
     .post(auth, appController.getAttendanceByTeacer);
   app.route(`/api/getStudentList`).get(auth, appController.getStudentList);
+  app.route(`/api/getMarks`).get(auth, appController.getMarks);
 };
 
 export default appRoutes;

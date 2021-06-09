@@ -397,4 +397,14 @@ Task.getStudentList = (req, res) => {
   });
 };
 
+Task.getMarks = (req, res) => {
+  appModel.getMarks(req, (err, response) => {
+    if (err || req.role !== "student") {
+      res.status(404).send(err);
+    } else {
+      res.status(200).send(response);
+    }
+  });
+};
+
 export default Task;

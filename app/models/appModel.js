@@ -486,7 +486,6 @@ Task.attendance = async (data, result) => {
     time,
     current_semester,
   } = data;
-  log(data);
   let query = `insert into attendance_master (uniqueid, name, regd_no, department, section, date, time, current_semester)
     values ('${uniqueId}', '${name}', '${regd_no}', '${department}', '${section}', date(now())  , "${time}","${current_semester}" );
   `;
@@ -548,6 +547,20 @@ Task.getStudentList = async (data, result) => {
   (select distinct dept_name,section,sectionadmin from department_section ) as t2 on 
   t1.department = t2.dept_name and t1.section = t2.section where current_semester
    between 0 and 8 and sectionadmin = "${data.user}" order by t1.department asc`;
+  SQL.query(query, async (err, res) => {
+    if (err) {
+      console.log(err);
+      result(err, null);
+    } else {
+      result(null, res);
+    }
+  });
+};
+
+Task.getMarks = async (data, result) => {
+  let query = `select regd_no, subject_name, semester, uploadedat,totalmarks,assignedmarks 
+  from uploadtable where regd_no ="${data.user}"`;
+
   SQL.query(query, async (err, res) => {
     if (err) {
       console.log(err);
