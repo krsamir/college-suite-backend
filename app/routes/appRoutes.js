@@ -76,6 +76,9 @@ const appRoutes = (app) => {
     .post(auth, appController.getAttendanceByTeacer);
   app.route(`/api/getStudentList`).get(auth, appController.getStudentList);
   app.route(`/api/getMarks`).get(auth, appController.getMarks);
+  app
+    .route(`/api/getTeacherDashboard`)
+    .get(auth, appController.getTeacherDashboard);
 };
 
 export default appRoutes;

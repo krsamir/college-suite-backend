@@ -407,4 +407,14 @@ Task.getMarks = (req, res) => {
   });
 };
 
+Task.getTeacherDashboard = (req, res) => {
+  multiData.getTeacherDashboard(req, (err, response) => {
+    if (err || req.role !== "teacher") {
+      res.status(404).send(err);
+    } else {
+      res.status(200).send(response);
+    }
+  });
+};
+
 export default Task;
