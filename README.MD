@@ -1,5 +1,5 @@
 # Project
-
+### Note: Latest development is done in https://github.com/krsamir/college-suite-complete repository.
 ## Quick Start
 
 > First change directory to backend
